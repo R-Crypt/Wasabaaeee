@@ -184,7 +184,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     async function fetchFollowerCount() {
-        const url = 'http://localhost:8000/api/followers';
+        const url = '/api/followers';
 
         try {
             const response = await fetch(url);
@@ -548,7 +548,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 state.followerCount = count;
                 
                 // Sync count to server
-                fetch('http://localhost:8000/api/followers', {
+                fetch('/api/followers', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ count: count })
@@ -573,7 +573,7 @@ document.addEventListener('DOMContentLoaded', () => {
             updateUI();
             
             // Sync count to server
-            fetch('http://localhost:8000/api/followers', {
+            fetch('/api/followers', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ count: state.followerCount })
@@ -602,7 +602,7 @@ document.addEventListener('DOMContentLoaded', () => {
             elements.magicModal.classList.remove('active');
             
             // Sync count to server
-            fetch('http://localhost:8000/api/followers', {
+            fetch('/api/followers', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ count: DEFAULT_START_COUNT })
