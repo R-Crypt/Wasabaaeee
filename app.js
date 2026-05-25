@@ -192,14 +192,14 @@ document.addEventListener('DOMContentLoaded', () => {
         simulationInterval = setInterval(() => {
             const currentTarget = getMilestoneTarget(state.followerCount);
             if (state.followerCount < currentTarget) {
-                // 35% chance to increment every 60s
+                // 35% chance to increment every 15s (averages one new follower every ~40s)
                 if (Math.random() < 0.35) {
                     state.followerCount++;
                     updateUI();
                     console.log(`[Live Tracker] Simulated count incremented to: ${state.followerCount}`);
                 }
             }
-        }, 60000);
+        }, 15000);
     }
 
     function stopClientSideSimulation() {
