@@ -64,11 +64,28 @@ document.addEventListener('DOMContentLoaded', () => {
     initApp();
 
     function initApp() {
+        setupAudioUnlock();
         updateUI();
         initFloatingElements();
         initCurtainInteractions();
         initControlPanel();
         startLiveTracker();
+    }
+
+    function setupAudioUnlock() {
+        const unlock = () => {
+            if (elements.meowAudio) {
+                // Play a brief silent cycle to unlock the element for iOS Safari
+                elements.meowAudio.play().then(() => {
+                    elements.meowAudio.pause();
+                    elements.meowAudio.currentTime = 0;
+                }).catch(e => console.log("[Audio] Unlock failed/deferred:", e));
+            }
+            document.removeEventListener('click', unlock);
+            document.removeEventListener('touchstart', unlock);
+        };
+        document.addEventListener('click', unlock);
+        document.addEventListener('touchstart', unlock);
     }
 
     function initCurtainInteractions() {
@@ -303,15 +320,19 @@ document.addEventListener('DOMContentLoaded', () => {
             img.style.animationDelay = `${delay}s`;
         }
 
-        // Click = meow + hearts
-        img.addEventListener('click', (e) => {
+        // Touch/Click = meow + hearts
+        const handleLuluTap = (e) => {
+            e.preventDefault();
             e.stopPropagation();
             playRealMeow();
             for (let i = 0; i < 4; i++) {
                 setTimeout(() => spawnFloatingItem('❤️'), i * 80);
                 setTimeout(() => spawnFloatingItem('✨'), i * 100);
             }
-        });
+        };
+
+        img.addEventListener('click', handleLuluTap);
+        img.addEventListener('touchstart', handleLuluTap, { passive: false });
 
         elements.floatingContainer.appendChild(img);
 
