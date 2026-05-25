@@ -183,6 +183,64 @@ document.addEventListener('DOMContentLoaded', () => {
         return null;
     }
 
+    let simulationInterval = null;
+
+    function startClientSideSimulation() {
+        if (simulationInterval) return;
+        console.log("[Live Tracker] Starting client-side simulation fallback.");
+        
+        simulationInterval = setInterval(() => {
+            const currentTarget = getMilestoneTarget(state.followerCount);
+            if (state.followerCount < currentTarget) {
+                // 35% chance to increment every 60s
+                if (Math.random() < 0.35) {
+                    state.followerCount++;
+                    updateUI();
+                    console.log(`[Live Tracker] Simulated count incremented to: ${state.followerCount}`);
+                }
+            }
+        }, 60000);
+    }
+
+    function stopClientSideSimulation() {
+        if (simulationInterval) {
+            clearInterval(simulationInterval);
+            simulationInterval = null;
+        }
+    }
+
+    async function fetchFollowerCountFromRapidAPI() {
+        const host = 'instagram-scraper-api2.p.rapidapi.com';
+        const url = `https://${host}/user/info?username=${INSTAGRAM_USERNAME}`;
+        const options = {
+            method: 'GET',
+            headers: {
+                'x-rapidapi-key': RAPIDAPI_KEY,
+                'x-rapidapi-host': host
+            }
+        };
+
+        try {
+            const response = await fetch(url, options);
+            const data = await response.json();
+            
+            let count = null;
+            if (data && data.data && data.data.user && typeof data.data.user.edge_followed_by.count === 'number') {
+                count = data.data.user.edge_followed_by.count;
+            } else {
+                count = findFollowersField(data);
+            }
+            
+            if (count !== null && count >= 2000 && count <= 1000000) {
+                console.log(`[Live Tracker] Direct RapidAPI count: ${count}`);
+                return count;
+            }
+        } catch (e) {
+            console.warn(`[Live Tracker] Direct RapidAPI fetch failed: ${e.message}`);
+        }
+        return null;
+    }
+
     async function fetchFollowerCount() {
         const url = '/api/followers';
 
@@ -201,8 +259,11 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             if (count !== null && count >= 2000 && count <= 1000000) {
+                // Stop local simulation if server is responding
+                stopClientSideSimulation();
+
                 const mode = data.mode || 'unknown';
-                console.log(`[Live Tracker] Real count: ${count} (mode: ${mode})`);
+                console.log(`[Live Tracker] Server count: ${count} (mode: ${mode})`);
 
                 // Only update UI if the count actually changed
                 if (count !== state.followerCount) {
@@ -213,7 +274,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 throw new Error('Could not parse follower count.');
             }
         } catch (error) {
-            console.warn(`[Live Tracker] Fetch failed: ${error.message}. Keeping last known count.`);
+            console.warn(`[Live Tracker] Server API fetch failed: ${error.message}. Trying direct RapidAPI...`);
+            
+            // Try direct RapidAPI query
+            const directCount = await fetchFollowerCountFromRapidAPI();
+            if (directCount !== null) {
+                stopClientSideSimulation();
+                if (directCount !== state.followerCount) {
+                    state.followerCount = directCount;
+                    updateUI();
+                }
+            } else {
+                console.warn("[Live Tracker] Direct RapidAPI failed. Falling back to local simulation.");
+                startClientSideSimulation();
+            }
         }
     }
 
