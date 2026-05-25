@@ -8,7 +8,7 @@ import time
 import random
 import urllib.parse
 
-PORT = 8000
+PORT = int(os.environ.get('PORT', 8000))
 STATE_FILE = 'followers_state.json'
 DEFAULT_START = 2962
 TARGET_COUNT = 3000
