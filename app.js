@@ -702,6 +702,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }).then(() => {
                 // Re-check API immediately
                 fetchFollowerCount();
+            });
         });
     }
 
