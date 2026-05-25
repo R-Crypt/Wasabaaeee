@@ -332,12 +332,37 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    let liveTrackerInterval = null;
+
     async function startLiveTracker() {
         // Fetch immediately on load
         await fetchFollowerCount();
 
-        // Poll every 10 seconds to make manual overrides sync instantly
-        setInterval(fetchFollowerCount, 10000);
+        // Poll every 2 seconds when page is active to sync instantly
+        const startPolling = () => {
+            if (liveTrackerInterval) return;
+            liveTrackerInterval = setInterval(fetchFollowerCount, 2000);
+        };
+
+        const stopPolling = () => {
+            if (liveTrackerInterval) {
+                clearInterval(liveTrackerInterval);
+                liveTrackerInterval = null;
+            }
+        };
+
+        if (document.visibilityState === 'visible') {
+            startPolling();
+        }
+
+        document.addEventListener('visibilitychange', () => {
+            if (document.visibilityState === 'visible') {
+                fetchFollowerCount();
+                startPolling();
+            } else {
+                stopPolling();
+            }
+        });
     }
 
     function syncFollowerCount(count) {
