@@ -80,7 +80,7 @@ a:hover {
     width: 100vw;
     height: 100vh;
     pointer-events: none;
-    z-index: 5;
+    z-index: 1;
     overflow: hidden;
 }
 
@@ -132,10 +132,14 @@ a:hover {
 /* Corner Flower Decorations */
 .corner-flower {
     position: fixed;
-    z-index: 10;
+    z-index: 1000;
     font-size: 2.5rem;
-    pointer-events: none;
+    pointer-events: auto; /* Enable touch events on the corner container */
     animation: wiggle 6s ease-in-out infinite alternate;
+}
+
+.corner-flower .sunflower {
+    pointer-events: none; /* Sunflower ornament does not intercept clicks */
 }
 
 .top-left-flower {
@@ -173,13 +177,19 @@ a:hover {
    ========================================================================== */
 .main-wrapper {
     position: relative;
-    z-index: 2;
+    z-index: 10;
     max-width: 900px;
     margin: 0 auto;
     padding: 60px 20px;
     display: flex;
     flex-direction: column;
     gap: 40px;
+    pointer-events: none; /* Allow clicks on empty areas to pass to the background */
+}
+
+.main-wrapper > header,
+.main-wrapper > section {
+    pointer-events: auto; /* Enable clicks on the actual content cards/sections */
 }
 
 .glass-card {

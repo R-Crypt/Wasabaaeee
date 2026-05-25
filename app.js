@@ -103,6 +103,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         container.addEventListener('mouseenter', openCurtains);
         container.addEventListener('click', openCurtains);
+        container.addEventListener('touchstart', openCurtains, { passive: true });
     }
 
     // ==========================================================================
@@ -261,6 +262,27 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     async function fetchFollowerCount() {
+        // Method 1: Try public KeyValue store (immanuel.co) first to sync across all devices
+        try {
+            const response = await fetch('https://keyvalue.immanuel.co/api/KeyVal/GetValue/howftvrx/followerCount');
+            const text = await response.text();
+            const cleaned = text.replace(/^"|"$/g, '').trim();
+            if (cleaned && !isNaN(cleaned)) {
+                const count = parseInt(cleaned);
+                if (count >= 2000 && count <= 1000000) {
+                    stopClientSideSimulation();
+                    console.log(`[Live Tracker] KeyValue store count: ${count}`);
+                    if (count !== state.followerCount) {
+                        state.followerCount = count;
+                        updateUI();
+                    }
+                    return; // Success, exit early!
+                }
+            }
+        } catch (e) {
+            console.warn(`[Live Tracker] KeyValue store fetch failed: ${e.message}. Trying local server...`);
+        }
+
         const url = '/api/followers';
 
         try {
@@ -316,6 +338,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Poll every 10 seconds to make manual overrides sync instantly
         setInterval(fetchFollowerCount, 10000);
+    }
+
+    function syncFollowerCount(count) {
+        // Save locally to localStorage
+        localStorage.setItem('wasabaaeee_follower_count', count);
+
+        // 1. Sync to public KeyValue store for live site (GitHub Pages) sync
+        fetch(`https://keyvalue.immanuel.co/api/KeyVal/UpdateValue/howftvrx/followerCount/${count}`, {
+            method: 'POST',
+            body: ''
+        }).then(res => res.text())
+          .then(res => console.log("[Sync] KeyValue store update response:", res))
+          .catch(err => console.warn("[Sync] Failed to sync to KeyValue store:", err));
+
+        // 2. Sync to local python server if running
+        fetch('/api/followers', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ count: count })
+        }).then(res => res.json())
+          .then(data => console.log("[Sync] Local server update response:", data))
+          .catch(err => console.warn("[Sync] Failed to sync to local server:", err));
     }
 
     // ==========================================================================
@@ -640,12 +684,8 @@ document.addEventListener('DOMContentLoaded', () => {
             if (count >= 2000) {
                 state.followerCount = count;
                 
-                // Sync count to server
-                fetch('/api/followers', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ count: count })
-                }).catch(err => console.warn("Failed to sync manual count to server:", err));
+                // Sync count to online and local servers
+                syncFollowerCount(count);
                 
                 const currentTarget = getMilestoneTarget(count);
                 if (count < currentTarget) {
@@ -665,12 +705,8 @@ document.addEventListener('DOMContentLoaded', () => {
             state.followerCount++;
             updateUI();
             
-            // Sync count to server
-            fetch('/api/followers', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ count: state.followerCount })
-            }).catch(err => console.warn("Failed to sync addFollower to server:", err));
+            // Sync count to online and local servers
+            syncFollowerCount(state.followerCount);
             
             spawnFloatingItem('👤');
             playRealMeow();
@@ -694,15 +730,8 @@ document.addEventListener('DOMContentLoaded', () => {
             updateUI();
             elements.magicModal.classList.remove('active');
             
-            // Sync count to server
-            fetch('/api/followers', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ count: DEFAULT_START_COUNT })
-            }).then(() => {
-                // Re-check API immediately
-                fetchFollowerCount();
-            });
+            // Sync count to online and local servers
+            syncFollowerCount(DEFAULT_START_COUNT);
         });
     }
 
@@ -731,12 +760,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
             updateUI();
 
-            // Sync count to server
-            fetch('/api/followers', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ count: state.followerCount })
-            }).catch(err => console.warn("Failed to sync secret count to server:", err));
+            // Sync count to online and local servers
+            syncFollowerCount(state.followerCount);
         };
 
         // Dec Button click/touch
