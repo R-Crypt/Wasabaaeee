@@ -1300,7 +1300,7 @@ a:hover {
     background: transparent;
     border: none;
     outline: none;
-    color: rgba(255, 179, 0, 0.08); /* faint golden orange, blends into background */
+    color: rgba(0, 0, 0, 0.04); /* very faint black, slightly visible but unnoticeable to others */
     font-size: 1.8rem;
     z-index: 100000;
     cursor: pointer;
