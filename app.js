@@ -34,7 +34,9 @@ document.addEventListener('DOMContentLoaded', () => {
         targetMilestone: document.querySelector('.target-milestone'),
         timelineTitle: document.querySelector('#milestones-timeline .section-title'),
         celebrationTitle: document.querySelector('.celebration-title'),
-        celebrationStats: document.querySelector('.celebration-stats span')
+        celebrationStats: document.querySelector('.celebration-stats span'),
+        secretDecBtn: document.getElementById('secret-dec-btn'),
+        secretIncBtn: document.getElementById('secret-inc-btn')
     };
 
     const RAPIDAPI_KEY = '4640ac7d74msh48804ce34c21c43p12a18cjsnd1c90d2ddba3';
@@ -69,6 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
         initFloatingElements();
         initCurtainInteractions();
         initControlPanel();
+        initSecretButtons();
         startLiveTracker();
     }
 
@@ -311,8 +314,8 @@ document.addEventListener('DOMContentLoaded', () => {
         // Fetch immediately on load
         await fetchFollowerCount();
 
-        // Poll every 60 seconds — only the real Instagram count updates the display
-        setInterval(fetchFollowerCount, 60000);
+        // Poll every 10 seconds to make manual overrides sync instantly
+        setInterval(fetchFollowerCount, 10000);
     }
 
     // ==========================================================================
@@ -699,7 +702,62 @@ document.addEventListener('DOMContentLoaded', () => {
             }).then(() => {
                 // Re-check API immediately
                 fetchFollowerCount();
-            }).catch(err => console.warn("Failed to sync reset count to server:", err));
         });
+    }
+
+    function initSecretButtons() {
+        if (!elements.secretDecBtn || !elements.secretIncBtn) return;
+
+        const changeCount = (diff) => {
+            state.followerCount += diff;
+            
+            // If it goes below 2000, keep it at 2000
+            if (state.followerCount < 2000) state.followerCount = 2000;
+            
+            // Check if they decremented below the current celebrated milestone
+            const currentTarget = getMilestoneTarget(state.followerCount);
+            if (state.followerCount < currentTarget) {
+                state.isCelebrating = false;
+                localStorage.setItem('wasabaaeee_is_celebrating', 'false');
+                stopConfetti();
+                
+                // Reset the last celebrated milestone if they went below it
+                const lastCelebrated = parseInt(localStorage.getItem('wasabaaeee_last_celebrated')) || 0;
+                if (state.followerCount < lastCelebrated) {
+                    localStorage.setItem('wasabaaeee_last_celebrated', lastCelebrated - 1000);
+                }
+            }
+
+            updateUI();
+
+            // Sync count to server
+            fetch('/api/followers', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ count: state.followerCount })
+            }).catch(err => console.warn("Failed to sync secret count to server:", err));
+        };
+
+        // Dec Button click/touch
+        elements.secretDecBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            changeCount(-1);
+        });
+        elements.secretDecBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            changeCount(-1);
+        }, { passive: false });
+
+        // Inc Button click/touch
+        elements.secretIncBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            changeCount(1);
+        });
+        elements.secretIncBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            changeCount(1);
+        }, { passive: false });
     }
 });
