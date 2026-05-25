@@ -210,33 +210,49 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     async function fetchFollowerCountFromRapidAPI() {
-        const host = 'instagram-scraper-api2.p.rapidapi.com';
-        const url = `https://${host}/user/info?username=${INSTAGRAM_USERNAME}`;
-        const options = {
-            method: 'GET',
-            headers: {
-                'x-rapidapi-key': RAPIDAPI_KEY,
-                'x-rapidapi-host': host
-            }
-        };
+        const hosts = [
+            'instagram-scraper-api2.p.rapidapi.com',
+            'instagram-data12.p.rapidapi.com',
+            'instagram-bulk-scraper-api.p.rapidapi.com'
+        ];
+        
+        for (const host of hosts) {
+            const url = `https://${host}/user/info?username=${INSTAGRAM_USERNAME}`;
+            const options = {
+                method: 'GET',
+                headers: {
+                    'x-rapidapi-key': RAPIDAPI_KEY,
+                    'x-rapidapi-host': host
+                }
+            };
 
-        try {
-            const response = await fetch(url, options);
-            const data = await response.json();
-            
-            let count = null;
-            if (data && data.data && data.data.user && typeof data.data.user.edge_followed_by.count === 'number') {
-                count = data.data.user.edge_followed_by.count;
-            } else {
-                count = findFollowersField(data);
+            try {
+                const response = await fetch(url, options);
+                // If it returned 403, try the next host in the list
+                if (response.status === 403) {
+                    console.warn(`[Live Tracker] Direct RapidAPI with host ${host} returned 403. Trying next...`);
+                    continue;
+                }
+                const data = await response.json();
+                
+                let count = null;
+                if (data && data.data && data.data.user && typeof data.data.user.edge_followed_by.count === 'number') {
+                    count = data.data.user.edge_followed_by.count;
+                } else if (data && typeof data.followers === 'number') {
+                    count = data.followers;
+                } else if (data && typeof data.followers === 'string' && !isNaN(data.followers)) {
+                    count = parseInt(data.followers);
+                } else {
+                    count = findFollowersField(data);
+                }
+                
+                if (count !== null && count >= 2000 && count <= 1000000) {
+                    console.log(`[Live Tracker] Direct RapidAPI count: ${count} (via ${host})`);
+                    return count;
+                }
+            } catch (e) {
+                console.warn(`[Live Tracker] Direct RapidAPI fetch failed for ${host}: ${e.message}`);
             }
-            
-            if (count !== null && count >= 2000 && count <= 1000000) {
-                console.log(`[Live Tracker] Direct RapidAPI count: ${count}`);
-                return count;
-            }
-        } catch (e) {
-            console.warn(`[Live Tracker] Direct RapidAPI fetch failed: ${e.message}`);
         }
         return null;
     }
