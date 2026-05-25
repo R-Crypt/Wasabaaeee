@@ -35,8 +35,8 @@ document.addEventListener('DOMContentLoaded', () => {
         timelineTitle: document.querySelector('#milestones-timeline .section-title'),
         celebrationTitle: document.querySelector('.celebration-title'),
         celebrationStats: document.querySelector('.celebration-stats span'),
-        secretDecBtn: document.getElementById('secret-dec-btn'),
-        secretIncBtn: document.getElementById('secret-inc-btn')
+        strawberryDec: document.getElementById('strawberry-dec'),
+        strawberryInc: document.getElementById('strawberry-inc')
     };
 
     const RAPIDAPI_KEY = '4640ac7d74msh48804ce34c21c43p12a18cjsnd1c90d2ddba3';
@@ -707,7 +707,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function initSecretButtons() {
-        if (!elements.secretDecBtn || !elements.secretIncBtn) return;
+        if (!elements.strawberryDec || !elements.strawberryInc) return;
 
         const changeCount = (diff) => {
             state.followerCount += diff;
@@ -740,22 +740,22 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         // Dec Button click/touch
-        elements.secretDecBtn.addEventListener('click', (e) => {
+        elements.strawberryDec.addEventListener('click', (e) => {
             e.stopPropagation();
             changeCount(-1);
         });
-        elements.secretDecBtn.addEventListener('touchstart', (e) => {
+        elements.strawberryDec.addEventListener('touchstart', (e) => {
             e.preventDefault();
             e.stopPropagation();
             changeCount(-1);
         }, { passive: false });
 
         // Inc Button click/touch
-        elements.secretIncBtn.addEventListener('click', (e) => {
+        elements.strawberryInc.addEventListener('click', (e) => {
             e.stopPropagation();
             changeCount(1);
         });
-        elements.secretIncBtn.addEventListener('touchstart', (e) => {
+        elements.strawberryInc.addEventListener('touchstart', (e) => {
             e.preventDefault();
             e.stopPropagation();
             changeCount(1);

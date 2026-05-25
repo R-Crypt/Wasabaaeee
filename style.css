@@ -1082,6 +1082,9 @@ a:hover {
     display: inline-block;
     filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));
     animation: wiggleStrawberry 4s ease-in-out infinite alternate;
+    pointer-events: auto;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
 }
 
 @keyframes wiggleStrawberry {
@@ -1291,30 +1294,4 @@ a:hover {
     }
 }
 
-/* Secret Admin Control Buttons */
-.secret-admin-btn {
-    position: fixed;
-    bottom: 0;
-    width: 70px;
-    height: 70px;
-    background: transparent;
-    border: none;
-    outline: none;
-    color: rgba(0, 0, 0, 0.04); /* very faint black, slightly visible but unnoticeable to others */
-    font-size: 1.8rem;
-    z-index: 100000;
-    cursor: pointer;
-    user-select: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    -webkit-tap-highlight-color: transparent; /* remove blue flash on tap on iPhone */
-}
 
-.secret-dec-btn {
-    left: 0;
-}
-
-.secret-inc-btn {
-    right: 0;
-}
