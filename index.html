@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>wasabaaeee | Road to 3K Followers ✨</title>
+    <meta name="description"
+        content="Help Sobi (wasabaaeee) celebrate her milestone of reaching 3,000 followers! Live follower tracker and achievements.">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Quicksand:wght@300..700&family=Sacramento&display=swap"
+        rel="stylesheet">
+    <!-- FontAwesome for cute icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- Floating Background Elements Container -->
+    <div id="floating-container" class="floating-container"></div>
+
+    <!-- Hidden audio element for real meow sound -->
+    <audio id="meow-audio" preload="auto">
+        <source src="assets/telegram_audio.ogg" type="audio/ogg">
+        <source src="assets/meow.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Main Wrapper -->
+    <main class="main-wrapper">
+        <!-- Floating Sunflowers and Strawberries on top corners -->
+        <div class="corner-flower top-left-flower"><span class="sunflower">🌻</span><span class="strawberry">🍓</span>
+        </div>
+        <div class="corner-flower top-right-flower"><span class="strawberry">🍓</span><span class="sunflower">🌻</span>
+        </div>
+
+        <!-- Header Hero Section -->
+        <header class="header-section">
+            <h1 class="main-title">wasabaaeee</h1>
+        </header>
+
+        <!-- Live Follower Tracker Section -->
+        <section class="tracker-section" id="live-tracker">
+            <div class="glass-card tracker-card curtain-container">
+                <!-- Yellow Curtains with Ducks -->
+                <div class="curtains-wrapper" id="curtains">
+                    <!-- Gold Curtain Rod decoration -->
+                    <div class="curtain-rod"></div>
+                    <div class="curtain-half curtain-left">
+                        <div class="curtain-fabric"></div>
+                        <div class="duck-pattern-overlay">
+                            <img src="assets/duck_transparent.png" class="duck-emoji d1" alt="duck">
+                            <img src="assets/duck_transparent.png" class="duck-emoji d2" alt="duck">
+                            <img src="assets/duck_transparent.png" class="duck-emoji d3" alt="duck">
+                            <img src="assets/duck_transparent.png" class="duck-emoji d4" alt="duck">
+                            <img src="assets/duck_transparent.png" class="duck-emoji d5" alt="duck">
+                            <img src="assets/duck_transparent.png" class="duck-emoji d6" alt="duck">
+                        </div>
+                        <div class="curtain-tieback">🎀</div>
+                    </div>
+                    <div class="curtain-half curtain-right">
+                        <div class="curtain-fabric"></div>
+                        <div class="duck-pattern-overlay">
+                            <img src="assets/duck_transparent.png" class="duck-emoji d1" alt="duck">
+                            <img src="assets/duck_transparent.png" class="duck-emoji d2" alt="duck">
+                            <img src="assets/duck_transparent.png" class="duck-emoji d3" alt="duck">
+                            <img src="assets/duck_transparent.png" class="duck-emoji d4" alt="duck">
+                            <img src="assets/duck_transparent.png" class="duck-emoji d5" alt="duck">
+                            <img src="assets/duck_transparent.png" class="duck-emoji d6" alt="duck">
+                        </div>
+                        <div class="curtain-tieback">🎀</div>
+                    </div>
+                </div>
+
+                <div class="live-indicator-wrapper">
+                    <span class="live-dot"></span>
+                    <span class="live-text">LIVE COUNTDOWN</span>
+                </div>
+
+                <div class="counter-display">
+                    <span class="number-digit" id="follower-count">2,968</span>
+                    <span class="target-milestone">/ 3,000</span>
+                </div>
+
+                <!-- Custom Progress Bar -->
+                <div class="progress-container">
+                    <div class="progress-bar" id="progress-fill" style="width: 96.2%;"></div>
+                    <span class="progress-percentage" id="progress-percentage">98.7%</span>
+                </div>
+
+                <p class="tracker-note" id="tracker-message">Almost at 3K!!!</p>
+            </div>
+        </section>
+
+        <!-- Floating Lulu lives in the background, not in the page flow -->
+
+        <!-- Top Posts (Polaroid Grid) -->
+        <section class="gallery-section" id="memories-gallery">
+            <h2 class="section-title">Top Posts</h2>
+            <div class="polaroid-grid">
+                <!-- Polaroid 1: Frank Ocean -->
+                <div class="polaroid-card">
+                    <div class="polaroid-img-wrapper">
+                        <img src="assets/frank_ocean_post.png" alt="avg frank ocean listening experience">
+                    </div>
+                    <div class="polaroid-caption">
+                        <p class="caption-text">avg frank ocean listening experience 😬</p>
+                        <div class="polaroid-stats">
+                            <span><i class="fa-solid fa-heart"></i> 320.7k</span>
+                            <span><i class="fa-solid fa-comment"></i> 202</span>
+                        </div>
+                        <span class="pin">📌</span>
+                    </div>
+                </div>
+
+                <!-- Polaroid 2: Sushi Bouquet -->
+                <div class="polaroid-card">
+                    <div class="polaroid-img-wrapper">
+                        <img src="assets/sushi_post.png" alt="Sushi bouquet">
+                    </div>
+                    <div class="polaroid-caption">
+                        <p class="caption-text">i love being an auntie 🤭💕</p>
+                        <div class="polaroid-stats">
+                            <span><i class="fa-solid fa-heart"></i> 299.5k</span>
+                            <span><i class="fa-solid fa-comment"></i> 259</span>
+                        </div>
+                        <span class="pin">📌</span>
+                    </div>
+                </div>
+
+                <!-- Polaroid 3: Ear Piercings -->
+                <div class="polaroid-card">
+                    <div class="polaroid-img-wrapper">
+                        <img src="assets/earrings_post.png" alt="Ear piercings caption">
+                    </div>
+                    <div class="polaroid-caption">
+                        <p class="caption-text">half of my personality atp ✨</p>
+                        <div class="polaroid-stats">
+                            <span><i class="fa-solid fa-heart"></i> 114.8k</span>
+                            <span><i class="fa-solid fa-comment"></i> 317</span>
+                        </div>
+                        <span class="pin">📌</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Road to 3K Milestone Timeline Section -->
+        <section class="timeline-section" id="milestones-timeline">
+            <h2 class="section-title">Road to 3K</h2>
+            <div class="timeline-container">
+                <div class="timeline-line"></div>
+
+                <!-- Milestone 1: First Post -->
+                <div class="timeline-item left-item">
+                    <div class="timeline-badge">1st</div>
+                    <a href="https://www.instagram.com/p/CNcZHqkJkpM/?igsh=MWp2ejdnZnBuaGwyaw==" target="_blank"
+                        class="polaroid-card timeline-card">
+                        <div class="polaroid-img-wrapper">
+                            <img src="assets/first_post.jpg" alt="Sobi's First Post">
+                        </div>
+                        <div class="polaroid-caption">
+                            <p class="caption-text">Where the journey began! 🌱</p>
+                            <p class="timeline-meta">First Post</p>
+                            <span class="pin">📌</span>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Milestone 2: First 100k Reel -->
+                <div class="timeline-item right-item">
+                    <div class="timeline-badge">100k</div>
+                    <a href="https://www.instagram.com/reel/CUiNg5iBjPe/?igsh=NDgzOXZyM2g2d2V1" target="_blank"
+                        class="polaroid-card timeline-card">
+                        <div class="polaroid-img-wrapper">
+                            <img src="assets/first_reel_100k.jpg" alt="First 100k Reel">
+                        </div>
+                        <div class="polaroid-caption">
+                            <p class="caption-text">First reel to hit 100k views! 📈✨</p>
+                            <p class="timeline-meta">First Viral Reel</p>
+                            <span class="pin">📌</span>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Milestone 3: Big Milestone (3.9M views) -->
+                <div class="timeline-item left-item">
+                    <div class="timeline-badge">3.9M</div>
+                    <a href="https://www.instagram.com/reel/CpS2Fz1pWtz/?igsh=MW1sMmc4Z3ZrbXozNg==" target="_blank"
+                        class="polaroid-card timeline-card">
+                        <div class="polaroid-img-wrapper">
+                            <img src="assets/big_milestone_3m.jpg" alt="3.9M views big milestone">
+                        </div>
+                        <div class="polaroid-caption">
+                            <p class="caption-text">3.9M views and 500k+ likes! 🤯❤️</p>
+                            <p class="timeline-meta">Viral Explosion</p>
+                            <span class="pin">📌</span>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Milestone 4: Reached 1K -->
+                <div class="timeline-item right-item">
+                    <div class="timeline-badge">1K</div>
+                    <a href="https://www.instagram.com/reel/DQtPhNXCcTO/?igsh=bGsyYWpwYjhnOGRy" target="_blank"
+                        class="polaroid-card timeline-card">
+                        <div class="polaroid-img-wrapper">
+                            <img src="assets/reached_1k.jpg" alt="Reached 1K followers">
+                        </div>
+                        <div class="polaroid-caption">
+                            <p class="caption-text">Hit the big 1,000! 🎉💛</p>
+                            <p class="timeline-meta">1K Followers Milestone</p>
+                            <span class="pin">📌</span>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Milestone 5: First Collab -->
+                <div class="timeline-item left-item">
+                    <div class="timeline-badge">Collab</div>
+                    <a href="https://www.instagram.com/reel/DPb5ij_E0Nn/?igsh=MXhoZTZnNW5hOGFvdw==" target="_blank"
+                        class="polaroid-card timeline-card">
+                        <div class="polaroid-img-wrapper">
+                            <img src="assets/first_brand_collab.jpg" alt="First Brand Collab">
+                        </div>
+                        <div class="polaroid-caption">
+                            <p class="caption-text">First official brand collaboration! 🤝✨</p>
+                            <p class="timeline-meta">First Brand Partnership</p>
+                            <span class="pin">📌</span>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Milestone 6: Reached 2K -->
+                <div class="timeline-item right-item">
+                    <div class="timeline-badge">2K</div>
+                    <a href="https://www.instagram.com/reel/DUvYJlliXXZ/?igsh=cmYwY2twM3FhaDRy" target="_blank"
+                        class="polaroid-card timeline-card">
+                        <div class="polaroid-img-wrapper">
+                            <img src="assets/reached_2k.jpg" alt="Reached 2K followers">
+                        </div>
+                        <div class="polaroid-caption">
+                            <p class="caption-text">Hit 2,000 followers! 🥳🍰</p>
+                            <p class="timeline-meta">2K Followers Milestone</p>
+                            <span class="pin">📌</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer-bottom">
+        <p>Made with 💖 for Sobiiii</p>
+    </footer>
+
+
+
+    <!-- Celebration Screen overlay (Hidden by default, shown during 3K celebration) -->
+    <div class="celebration-overlay" id="celebration-screen">
+        <div class="celebration-card">
+            <div class="disco-ball-wrapper">
+                <div class="disco-ball">🪩</div>
+                <div class="disco-beam"></div>
+            </div>
+            <div class="celebration-cat-wrapper">
+                <img src="assets/wasabaeee_cat.png" alt="Celebration Cat" class="celebration-cat">
+                <div class="party-hat">🎉</div>
+            </div>
+            <h1 class="celebration-title">OMGGGG 3,000 FOLLOWERS! 🥳✨</h1>
+            <p class="celebration-subtitle">You did it! Congratulations Sobiiiiiiii! 🌻💛🍓</p>
+            <div class="celebration-stats">
+                <span>3,000 🎉</span>
+            </div>
+            <button id="close-celebration-btn" class="celebration-close-btn">Keep Growingggg! 💖</button>
+        </div>
+    </div>
+
+    <!-- Canvas for Confetti -->
+    <canvas id="confetti-canvas" class="confetti-canvas"></canvas>
+
+    <!-- Magic Control Panel (Dev Tool) -->
+    <button id="magic-wand-btn" class="magic-wand-btn" title="Control Panel">🪄</button>
+
+    <div class="magic-modal-overlay" id="magic-modal">
+        <div class="magic-modal-content">
+            <button class="close-modal-btn" id="close-modal-btn">&times;</button>
+            <h3 class="modal-title">🪄 Control Panel</h3>
+            <p class="modal-desc">Manually control the follower counter</p>
+            <div class="wand-control-group">
+                <label for="follower-input">Set Follower Count</label>
+                <div class="input-controls">
+                    <input type="number" id="follower-input" min="2000" max="3000" value="2962">
+                    <button id="set-count-btn" class="wand-btn">Set</button>
+                </div>
+            </div>
+            <div class="wand-actions">
+                <button id="add-follower-btn" class="wand-btn secondary">➕ Add Follower</button>
+                <button id="trigger-celebration-btn" class="wand-btn success">🎉 3K Celebration</button>
+                <button id="reset-sim-btn" class="wand-btn warning">🔄 Reset</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main JavaScript File -->
+    <script src="app.js"></script>
+</body>
+
+</html>

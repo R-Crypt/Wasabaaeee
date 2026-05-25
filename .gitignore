@@ -1,0 +1,5 @@
+.DS_Store
+.env
+followers_state.json
+scratch/
+__pycache__/
